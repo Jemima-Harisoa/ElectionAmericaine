@@ -67,8 +67,6 @@ $router->get('/carte', function() {
 
 $router->get('/carte/etat/@id', function($id) {
 	$controller = new MapController(Flight::mapService(), Flight::voteRepository(), Flight::authService());
-	// Passer l'ID dans les url_vars
-	\Flight::request()->url_vars['id'] = $id;
-	$controller->getStateDetail();
+	$controller->getStateDetail($id);
 });
 

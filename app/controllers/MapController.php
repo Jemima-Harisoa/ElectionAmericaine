@@ -40,33 +40,27 @@ class MapController
         ]);
     }
 
-    public function getStateDetail(): void
+    public function getStateDetail($id = null): void
     {
         if (!$this->authService->requireAuth()) {
             \Flight::halt(401, 'Non authentifié');
             return;
         }
 
-        $stateId = (int) \Flight::request()->url_vars['id'] ?? 0;
+        // Récupérer l'ID du paramètre ou de l'URL
+        if ($id === null) {
+            $id = (int) (\Flight::request()->url_vars['id'] ?? 0);
+        } else {
+            $id = (int) $id;
+        }
 
-        if ($stateId <= 0) {
+        if ($id <= 0) {
             \Flight::json(['error' => 'ID état invalide'], 400);
             return;
         }
 
         $electionId = 1;
-        $votes = $this->voteRepository->getVotesByState($stateId, $electionId);
-
-        if (empty($votes)) {
-            \Flight::json(['error' => 'Aucune donnée pour cet état'], 404);
-            return;
-        }
-
-        // Formater les détails pour l'AJAX
-        $details = [
-            'state_id' => $stateId,
-            'votes' => [],
-        ];
+        $votes = $this->voteRepository->getVotesByState($id, $electionId);
 
         // Récupérer les candidats pour cette élection
         $candidates = $this->voteRepository->getCandidatesByElection($electionId);
@@ -75,11 +69,28 @@ class MapController
             $candidatesMap[(int) $candidate['id']] = $candidate['name'];
         }
 
-        foreach ($votes as $candidateId => $voteCount) {
-            if (isset($candidatesMap[$candidateId])) {
+        // Formater les détails pour l'AJAX
+        $details = [
+            'state_id' => $id,
+            'votes' => [],
+        ];
+
+        // Ajouter les votes s'il y en a
+        if (!empty($votes)) {
+            foreach ($votes as $candidateId => $voteCount) {
+                if (isset($candidatesMap[$candidateId])) {
+                    $details['votes'][] = [
+                        'candidate' => $candidatesMap[$candidateId],
+                        'votes' => (int) $voteCount,
+                    ];
+                }
+            }
+        } else {
+            // Si pas de votes, retourner quand même les candidats avec 0 votes
+            foreach ($candidatesMap as $candidateId => $candidateName) {
                 $details['votes'][] = [
-                    'candidate' => $candidatesMap[$candidateId],
-                    'votes' => (int) $voteCount,
+                    'candidate' => $candidateName,
+                    'votes' => 0,
                 ];
             }
         }
