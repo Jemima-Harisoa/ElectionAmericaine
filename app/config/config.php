@@ -75,14 +75,12 @@ $app->set('upload.justificatifs_absence', $uploadBasePath . 'justificatifs_absen
  */
 return [
     'database' => [
-        'driver'   => 'pgsql',
+        // 'driver'   => 'pgsql',
         'host'     => 'localhost',
-        'port'     => '5432', // le port par défaut de PostgreSQL
-        'dbname'   => 'aufildespages',
-        'user'     => 'postgres',
-        'password' => '1234'
-
-
+        //'port'     => '3306', 
+        'dbname'   => 'elections',
+        'user'     => 'root',
+        'password' => ''
     ],
 
 
