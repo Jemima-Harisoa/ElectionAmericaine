@@ -42,8 +42,10 @@ class MapController
 
     public function getStateDetail($id = null): void
     {
-        if (!$this->authService->requireAuth()) {
-            \Flight::halt(401, 'Non authentifié');
+        // Vérifier l'authentification (sans redirection pour AJAX)
+        $currentUser = $this->authService->getCurrentUser();
+        if ($currentUser === null) {
+            \Flight::json(['error' => 'Non authentifié'], 401);
             return;
         }
 
@@ -60,6 +62,13 @@ class MapController
         }
 
         $electionId = 1;
+        
+        // Vérifier que l'état existe
+        if (!$this->voteRepository->stateExists($id)) {
+            \Flight::json(['error' => 'État non trouvé'], 404);
+            return;
+        }
+
         $votes = $this->voteRepository->getVotesByState($id, $electionId);
 
         // Récupérer les candidats pour cette élection

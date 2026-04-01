@@ -130,25 +130,35 @@
 
 <script>
 function fetchStateDetail(stateId) {
+  console.log('Fetching details for state ID:', stateId);
+  
   fetch('/carte/etat/' + stateId)
     .then(response => {
+      console.log('Response status:', response.status);
+      
       if (!response.ok) {
-        throw new Error('Erreur lors du chargement');
+        return response.json().then(data => {
+          throw new Error(data.error || 'Erreur lors du chargement');
+        }).catch(e => {
+          throw new Error('Erreur: ' + response.status);
+        });
       }
       return response.json();
     })
     .then(data => {
+      console.log('Data received:', data);
       displayStateDetail(data);
       const modal = new bootstrap.Modal(document.getElementById('stateDetailModal'));
       modal.show();
     })
     .catch(error => {
-      console.error('Erreur:', error);
-      alert('Impossible de charger les détails de cet état');
+      console.error('Erreur complète:', error);
+      alert('Impossible de charger les détails: ' + error.message);
     });
 }
 
 function displayStateDetail(data) {
+  console.log('Displaying state detail:', data);
   let html = '<table class="table table-sm">';
   html += '<thead><tr><th>Candidat</th><th style="text-align: right;">Voix</th></tr></thead>';
   html += '<tbody>';
