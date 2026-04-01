@@ -43,3 +43,8 @@ $router->post('/saisie', function() {
 	$controller->handleSaisie();
 });
 
+$router->get('/tableau', function() {
+	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService());
+	$controller->showTableau();
+});
+

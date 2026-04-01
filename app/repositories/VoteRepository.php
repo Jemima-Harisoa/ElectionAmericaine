@@ -101,5 +101,22 @@ class VoteRepository
 
         return (bool) $stmt->fetchColumn();
     }
+    /**
+     * @return array<int, array{state_id:int, state_name:string, candidate_id:int, candidate_name:string, popular_votes:int}>
+     */
+    public function getVotesByElection(int $electionId): array
+    {
+        $sql = 'SELECT v.state_id, s.name as state_name, v.candidate_id, c.name as candidate_name, v.popular_votes
+                FROM votes v
+                JOIN states s ON v.state_id = s.id
+                JOIN candidates c ON v.candidate_id = c.id
+                WHERE v.election_id = :election_id
+                ORDER BY s.name, c.name';
 
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':election_id', $electionId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+    }
 }

@@ -84,12 +84,37 @@ class VoteController
 
         try {
             $this->voteService->saveVoteForState($stateId, $electionId, $votesByCandidate);
-            \Flight::redirect('/saisie?state_id=' . $stateId . '&success=1');
+            \Flight::redirect('/tableau?success=1');
             return;
         } catch (\Throwable $e) {
             $message = rawurlencode($e->getMessage());
             \Flight::redirect('/saisie?state_id=' . $stateId . '&error=' . $message);
             return;
         }
+    }
+
+    public function showTableau(): void
+    {
+        if (!$this->authService->requireAuth()) {
+            \Flight::redirect('/login');
+            return;
+        }
+
+        $electionId = 1;
+        $percentages = $this->voteService->computePercentages($electionId);
+
+        $request = \Flight::request();
+        $success = (int) ($request->query->success ?? 0) === 1;
+
+        \Flight::render('votes/tableau', [
+            'percentages' => $percentages,
+            'success' => $success,
+        ], 'content');
+
+        \Flight::render('layout/layout', [
+            'pageTitle' => 'Tableau des votes',
+            'showNavbar' => true,
+            'currentUser' => $this->authService->getCurrentUser(),
+        ]);
     }
 }

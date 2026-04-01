@@ -51,4 +51,60 @@ class VoteService
             $this->voteRepository->upsertVote($stateId, $candidateId, $electionId, (int) $popularVotes);
         }
     }
+
+    /**
+     * @return array<int, array{state_id:int, state_name:string, percentages:array<string, float>}>
+     */
+    public function computePercentages(int $electionId): array
+    {
+        $rawVotes = $this->voteRepository->getVotesByElection($electionId);
+
+        if (empty($rawVotes)) {
+            return [];
+        }
+
+        $stateData = [];
+        foreach ($rawVotes as $row) {
+            $stateId = (int) $row['state_id'];
+            $stateName = (string) $row['state_name'];
+            $candidateId = (int) $row['candidate_id'];
+            $candidateName = (string) $row['candidate_name'];
+            $popularVotes = (int) $row['popular_votes'];
+
+            if (!isset($stateData[$stateId])) {
+                $stateData[$stateId] = [
+                    'state_id' => $stateId,
+                    'state_name' => $stateName,
+                    'candidates' => [],
+                    'total_votes' => 0,
+                ];
+            }
+
+            $stateData[$stateId]['candidates'][$candidateId] = [
+                'name' => $candidateName,
+                'votes' => $popularVotes,
+            ];
+            $stateData[$stateId]['total_votes'] += $popularVotes;
+        }
+
+        $result = [];
+        foreach ($stateData as $state) {
+            $stateId = $state['state_id'];
+            $total = $state['total_votes'];
+            $percentages = [];
+
+            foreach ($state['candidates'] as $candidateId => $candidate) {
+                $pct = $total > 0 ? ($candidate['votes'] / $total) * 100 : 0;
+                $percentages[$candidate['name']] = round($pct, 2);
+            }
+
+            $result[$stateId] = [
+                'state_id' => $state['state_id'],
+                'state_name' => $state['state_name'],
+                'percentages' => $percentages,
+            ];
+        }
+
+        return array_values($result);
+    }
 }
