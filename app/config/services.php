@@ -8,12 +8,14 @@ use app\repositories\UserRepository;
 use app\repositories\VoteRepository;
 use app\repositories\ResultRepository;
 use app\repositories\AuditRepository;
+use app\repositories\ElectionRepository;
 use app\services\AuthService;
 use app\services\VoteService;
 use app\services\ResultService;
 use app\services\PdfService;
 use app\services\MapService;
 use app\services\AuditService;
+use app\services\ElectionService;
 
 /** 
  * @var array $config This comes from the returned array at the bottom of the config.php file
@@ -47,6 +49,14 @@ $app->map('authService', function() {
 
 $app->map('voteRepository', function() {
 	return new VoteRepository(Flight::db());
+});
+
+$app->map('electionRepository', function() {
+	return new ElectionRepository(Flight::db());
+});
+
+$app->map('electionService', function() {
+	return new ElectionService(Flight::electionRepository(), Flight::voteRepository());
 });
 
 $app->map('auditRepository', function() {

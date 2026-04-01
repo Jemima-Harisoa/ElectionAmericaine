@@ -6,6 +6,7 @@ use app\controllers\VoteController;
 use app\controllers\ResultController;
 use app\controllers\MapController;
 use app\controllers\AuditController;
+use app\controllers\ElectionsController;
 //use Flight;
 
 /** 
@@ -37,17 +38,17 @@ $router->get('/logout', function() {
 });
 
 $router->get('/saisie', function() {
-	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService());
+	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService(), Flight::electionService());
 	$controller->showSaisie();
 });
 
 $router->post('/saisie', function() {
-	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService());
+	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService(), Flight::electionService());
 	$controller->handleSaisie();
 });
 
 $router->get('/tableau', function() {
-	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService());
+	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService(), Flight::electionService());
 	$controller->showTableau();
 });
 
@@ -89,6 +90,21 @@ $router->post('/audit/rollback', function() {
 $router->get('/audit/export', function() {
 	$controller = new AuditController(Flight::authService(), Flight::auditService());
 	$controller->exportCSV();
+});
+
+$router->get('/elections', function() {
+	$controller = new ElectionsController(Flight::electionService(), Flight::authService());
+	$controller->showElections();
+});
+
+$router->post('/elections/create', function() {
+	$controller = new ElectionsController(Flight::electionService(), Flight::authService());
+	$controller->handleCreateElection();
+});
+
+$router->post('/elections/delete', function() {
+	$controller = new ElectionsController(Flight::electionService(), Flight::authService());
+	$controller->handleDeleteElection();
 });
 
 
