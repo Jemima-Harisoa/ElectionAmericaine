@@ -26,29 +26,29 @@
 ##  MODULE 1 — Authentification
 
 ### BDD
-- [ ] **Table `users`** — Créer avec les champs : `id`, `username`, `password_hash`, `role` (`admin` ou `observer`)
-- [ ] **Insérer 2 utilisateurs de test** — 1 admin + 1 observer, mots de passe hashés avec `password_hash()`
+- [X] **Table `users`** — Créer avec les champs : `id`, `username`, `password_hash`, `role` (`admin` ou `observer`)
+- [X] **Insérer 2 utilisateurs de test** — 1 admin + 1 observer, mots de passe hashés avec `password_hash()`
 
 ### Back
-- [ ] **`UserRepository::findByUsername`** — Cherche un utilisateur par son nom pour le login
-- [ ] **`AuthService::login`** — Vérifie username + password, crée la session avec `user_id` et `role`
-- [ ] **`AuthService::logout`** — Détruit la session et redirige vers `/login`
-- [ ] **`AuthService::getCurrentUser`** — Retourne les infos de l'utilisateur depuis la session
-- [ ] **`AuthService::isAdmin`** — Retourne `true` si le rôle en session est `admin`
-- [ ] **`AuthService::requireAuth`** — Middleware : redirige vers `/login` si pas de session active
-- [ ] **`AuthService::requireAdmin`** — Middleware : redirige avec erreur 403 si l'user n'est pas admin
-- [ ] **`AuthController::showLogin`** — Affiche la page de login
-- [ ] **`AuthController::handleLogin`** — Traite le POST, redirige vers `/tableau` si succès, affiche erreur sinon
-- [ ] **`AuthController::handleLogout`** — Appelle `AuthService::logout`
+- [X] **`UserRepository::findByUsername`** — Cherche un utilisateur par son nom pour le login
+- [X] **`AuthService::login`** — Vérifie username + password, crée la session avec `user_id` et `role`
+- [X] **`AuthService::logout`** — Détruit la session et redirige vers `/login`
+- [X] **`AuthService::getCurrentUser`** — Retourne les infos de l'utilisateur depuis la session
+- [X] **`AuthService::isAdmin`** — Retourne `true` si le rôle en session est `admin`
+- [X] **`AuthService::requireAuth`** — Middleware : redirige vers `/login` si pas de session active
+- [X] **`AuthService::requireAdmin`** — Middleware : redirige avec erreur 403 si l'user n'est pas admin
+- [X] **`AuthController::showLogin`** — Affiche la page de login
+- [X] **`AuthController::handleLogin`** — Traite le POST, redirige vers `/tableau` si succès, affiche erreur sinon
+- [X] **`AuthController::handleLogout`** — Appelle `AuthService::logout`
 
 ### Routes
-- [ ] `GET  /login`  → `AuthController::showLogin`
-- [ ] `POST /login`  → `AuthController::handleLogin`
-- [ ] `GET  /logout` → `AuthController::handleLogout`
+- [X] `GET  /login`  → `AuthController::showLogin`
+- [X] `POST /login`  → `AuthController::handleLogin`
+- [X] `GET  /logout` → `AuthController::handleLogout`
 
 ### Vues
-- [ ] **`layout.php`** — Template de base : navbar avec liens dynamiques selon le rôle, inclusion Bootstrap
-- [ ] **`auth/login.php`** — Formulaire avec champs `username` + `password`, affichage du message d'erreur si échec
+- [X] **`layout.php`** — Template de base : navbar avec liens dynamiques selon le rôle, inclusion Bootstrap
+- [X] **`auth/login.php`** — Formulaire avec champs `username` + `password`, affichage du message d'erreur si échec
 
 ---
 
