@@ -1,13 +1,16 @@
 -- Schema de base de données pour l'application d'élection américaine
+CREATE DATABASE IF NOT EXISTS elections;
+
+USE elections;
 
 -- Table des élections
-CREATE TABLE elections (
+CREATE TABLE IF NOT EXISTS elections (
     id INT AUTO_INCREMENT PRIMARY KEY,
     year INT NOT NULL UNIQUE
 );
 
 -- Tables des zones électorales
-CREATE TABLE states (
+CREATE TABLE IF NOT EXISTS states (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     electoral_votes INT NOT NULL CHECK (electoral_votes >= 0),
@@ -15,14 +18,14 @@ CREATE TABLE states (
 );
 
 -- Table des candidats
-CREATE TABLE candidates (
+CREATE TABLE IF NOT EXISTS candidates (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     party VARCHAR(50) -- optionnel
 );
 
 -- Les candidats par élection
-CREATE TABLE election_candidates (
+CREATE TABLE IF NOT EXISTS election_candidates (
     id INT AUTO_INCREMENT PRIMARY KEY,
     election_id INT NOT NULL,
     candidate_id INT NOT NULL,
@@ -34,7 +37,7 @@ CREATE TABLE election_candidates (
 );
 
 -- Table des votes
-CREATE TABLE votes (
+CREATE TABLE IF NOT EXISTS votes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     state_id INT NOT NULL,
     candidate_id INT NOT NULL,
