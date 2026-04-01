@@ -2,8 +2,6 @@
 
 namespace app\repositories;
 
-use flight\database\PdoWrapper;
-
 class UserRepository
 {
     private \PDO $pdo;
@@ -16,24 +14,29 @@ class UserRepository
     /**
      * Sauvegarde un nouvel utilisateur dans la base de données
      *
-     * @param array{username: string, password: string, role_id: int} $data
+     * @param array{username: string, password: string, role: string} $data
      * @return bool
      * @throws \InvalidArgumentException Si les données sont manquantes
      */
     public function save(array $data): bool
     {
-        if (empty($data['username']) || empty($data['password']) || !isset($data['role_id'])) {
+        if (empty($data['username']) || empty($data['password']) || empty($data['role'])) {
             throw new \InvalidArgumentException("Données utilisateur incomplètes.");
         }
 
-        $sql = "INSERT INTO users (username, password_hash, role_id) 
-                VALUES (:username, :password_hash, :role_id)";
+        $allowedRoles = ['admin', 'observer'];
+        if (in_array($data['role'], $allowedRoles, true) === false) {
+            throw new \InvalidArgumentException("Rôle invalide. Valeurs autorisées: admin, observer.");
+        }
+
+        $sql = "INSERT INTO users (username, password_hash, role)
+                VALUES (:username, :password_hash, :role)";
 
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->bindValue(':username',      $data['username'],                   \PDO::PARAM_STR);
         $stmt->bindValue(':password_hash', $this->hashPassword($data['password']), \PDO::PARAM_STR);
-        $stmt->bindValue(':role_id',       $data['role_id'],                    \PDO::PARAM_INT);
+        $stmt->bindValue(':role',          $data['role'],                       \PDO::PARAM_STR);
 
         return $stmt->execute();
     }
@@ -46,8 +49,8 @@ class UserRepository
      */
     public function getByUsername(string $username): array|false
     {
-        $sql = "SELECT users.id as id, username, password_hash, role_id, role.name AS role_name 
-                FROM users join role on users.role_id = role.id 
+        $sql = "SELECT id, username, password_hash, role, role AS role_name
+            FROM users
                 WHERE username = :username";
 
         $stmt = $this->pdo->prepare($sql);
@@ -55,6 +58,17 @@ class UserRepository
         $stmt->execute();
 
         return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Alias pour compatibilité avec le nom prévu dans la TODO.
+     *
+     * @param string $username
+     * @return array<string, mixed>|false
+     */
+    public function findByUsername(string $username): array|false
+    {
+        return $this->getByUsername($username);
     }
 
     /**
