@@ -22,13 +22,22 @@ require('routes.php');
 require('services.php');
 
 /*
- * Construction du DSN PostgreSQL à partir de la config
+ * Construction du DSN à partir de la config
  */
-if (($config['database']['driver'] ?? null) === 'pgsql') {
+$driver = $config['database']['driver'] ?? null;
+
+if ($driver === 'pgsql') {
     $dsn = sprintf(
         "pgsql:host=%s;port=%s;dbname=%s",
         $config['database']['host'],
         $config['database']['port'] ?? 5432,
+        $config['database']['dbname']
+    );
+} elseif ($driver === 'mysql') {
+    $dsn = sprintf(
+        "mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4",
+        $config['database']['host'],
+        $config['database']['port'] ?? 3306,
         $config['database']['dbname']
     );
 } else {

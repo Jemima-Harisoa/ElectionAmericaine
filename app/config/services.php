@@ -11,13 +11,13 @@ use Tracy\Debugger;
  */
 
 // uncomment the following line for MySQL
-//  $dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
+$dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
 
 // uncomment the following line for SQLite
 // $dsn = 'sqlite:' . $config['database']['file_path'];
 
 // uncomment the following line for PostgreSQL
-$dsn = 'pgsql:host=' . $config['database']['host'] . ';port=' . $config['database']['port'] . ';dbname=' . $config['database']['dbname'];
+// $dsn = 'pgsql:host=' . $config['database']['host'] . ';port=' . $config['database']['port'] . ';dbname=' . $config['database']['dbname'];
 
 // uncomment the following line for psql
 

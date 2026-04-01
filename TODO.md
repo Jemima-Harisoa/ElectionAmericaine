@@ -16,21 +16,14 @@
 ##  MODULE 0 — Corrections bloquantes
 
 ### BDD
-- [ ] **Données `states`** — Insérer les 50 états US avec leur nom, nb de grands électeurs réels (2020) et population
-- [ ] **Données `candidates`** — Insérer Biden et Trump
-- [ ] **Données `elections`** — Insérer l'élection 2020
-- [ ] **Données `election_candidates`** — Associer Biden et Trump à l'élection 2020
-
-### Config
-- [ ] **Fixer `composer.json`** — Remplacer `flight/flight` par `flightphp/core` (`composer require flightphp/core`)
-- [ ] **Harmoniser `DB_NAME`** — Choisir `elections` partout : dans `docker-compose.dev.yml` (2 occurrences) et `config.php`
-- [ ] **`config.php` lit les variables d'env** — Utiliser `$_ENV['DB_HOST'] ?? 'db'` au lieu de valeurs en dur
-- [ ] **Harmoniser le nom** `DB_PASS` → `DB_PASSWORD` partout
+- [X] **Données `states`** — Insérer les 50 états US avec leur nom, nb de grands électeurs réels (2020) et population
+- [X] **Données `candidates`** — Insérer Biden et Trump
+- [X] **Données `elections`** — Insérer l'élection 2020
+- [X] **Données `election_candidates`** — Associer Biden et Trump à l'élection 2020
 
 ---
 
 ##  MODULE 1 — Authentification
-> Priorité haute — toutes les autres pages dépendent du système de rôles
 
 ### BDD
 - [ ] **Table `users`** — Créer avec les champs : `id`, `username`, `password_hash`, `role` (`admin` ou `observer`)
