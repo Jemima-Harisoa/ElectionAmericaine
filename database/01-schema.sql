@@ -51,53 +51,6 @@ CREATE TABLE IF NOT EXISTS votes (
     UNIQUE (state_id, candidate_id, election_id)
 );
 
-CREATE INDEX idx_votes_state ON votes(state_id);
-CREATE INDEX idx_votes_candidate ON votes(candidate_id);
-CREATE INDEX idx_votes_election ON votes(election_id);
-
--- Trigger pour vérifier que le candidat existe dans l'élection avant d'insérer un vote
-DELIMITER $$
-
-CREATE TRIGGER before_vote_insert
-BEFORE INSERT ON votes
-FOR EACH ROW
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM election_candidates ec
-        WHERE ec.election_id = NEW.election_id
-        AND ec.candidate_id = NEW.candidate_id
-    ) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Candidate not registered in this election';
-    END IF;
-END$$
-
-DELIMITER ;
-
--- Trigger pour vérifier que le total des votes populaires ne dépasse pas la population de l'état
-DELIMITER $$
-
-CREATE TRIGGER check_votes_limit
-BEFORE INSERT ON votes
-FOR EACH ROW
-BEGIN
-    DECLARE total_votes INT;
-
-    SELECT SUM(popular_votes)
-    INTO total_votes
-    FROM votes
-    WHERE state_id = NEW.state_id
-    AND election_id = NEW.election_id;
-
-    IF total_votes + NEW.popular_votes > 
-       (SELECT population FROM states WHERE id = NEW.state_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Total votes exceed population';
-    END IF;
-END$$
-
-DELIMITER ;
-
 -- vue potentielle pour les résultats par état
 CREATE VIEW state_winners AS
 SELECT v.state_id, v.election_id, v.candidate_id
