@@ -94,8 +94,12 @@ class VoteController
         $electionId = (int) ($request->data->election_id ?? 1);
         $votesByCandidate = (array) ($request->data->votes ?? []);
 
+        // Récupérer l'ID de l'utilisateur actuel pour l'audit
+        $currentUser = $this->authService->getCurrentUser();
+        $userId = $currentUser['id'] ?? null;
+
         try {
-            $this->voteService->saveVoteForState($stateId, $electionId, $votesByCandidate);
+            $this->voteService->saveVoteForState($stateId, $electionId, $votesByCandidate, $userId);
             \Flight::redirect('/tableau?success=1');
             return;
         } catch (\Throwable $e) {

@@ -7,11 +7,13 @@ use flight\database\PdoWrapper;
 use app\repositories\UserRepository;
 use app\repositories\VoteRepository;
 use app\repositories\ResultRepository;
+use app\repositories\AuditRepository;
 use app\services\AuthService;
 use app\services\VoteService;
 use app\services\ResultService;
 use app\services\PdfService;
 use app\services\MapService;
+use app\services\AuditService;
 
 /** 
  * @var array $config This comes from the returned array at the bottom of the config.php file
@@ -47,8 +49,16 @@ $app->map('voteRepository', function() {
 	return new VoteRepository(Flight::db());
 });
 
+$app->map('auditRepository', function() {
+	return new AuditRepository(Flight::db());
+});
+
+$app->map('auditService', function() {
+	return new AuditService(Flight::auditRepository(), Flight::voteRepository());
+});
+
 $app->map('voteService', function() {
-	return new VoteService(Flight::voteRepository());
+	return new VoteService(Flight::voteRepository(), Flight::auditService());
 });
 
 $app->map('resultRepository', function() {

@@ -5,6 +5,7 @@ use app\controllers\AuthController;
 use app\controllers\VoteController;
 use app\controllers\ResultController;
 use app\controllers\MapController;
+use app\controllers\AuditController;
 //use Flight;
 
 /** 
@@ -69,4 +70,25 @@ $router->get('/carte/etat/@id', function($id) {
 	$controller = new MapController(Flight::mapService(), Flight::voteRepository(), Flight::authService());
 	$controller->getStateDetail($id);
 });
+
+$router->get('/audit', function() {
+	$controller = new AuditController(Flight::authService(), Flight::auditService());
+	$controller->showAudit();
+});
+
+$router->get('/audit/etat/@id', function($id) {
+	$controller = new AuditController(Flight::authService(), Flight::auditService());
+	$controller->showAuditByState($id);
+});
+
+$router->post('/audit/rollback', function() {
+	$controller = new AuditController(Flight::authService(), Flight::auditService());
+	$controller->handleRollback();
+});
+
+$router->get('/audit/export', function() {
+	$controller = new AuditController(Flight::authService(), Flight::auditService());
+	$controller->exportCSV();
+});
+
 

@@ -7,16 +7,18 @@ use app\repositories\VoteRepository;
 class VoteService
 {
     private VoteRepository $voteRepository;
+    private ?AuditService $auditService = null;
 
-    public function __construct(VoteRepository $voteRepository)
+    public function __construct(VoteRepository $voteRepository, ?AuditService $auditService = null)
     {
         $this->voteRepository = $voteRepository;
+        $this->auditService = $auditService;
     }
 
     /**
      * @param array<int|string, int|string> $votesByCandidate
      */
-    public function saveVoteForState(int $stateId, int $electionId, array $votesByCandidate): void
+    public function saveVoteForState(int $stateId, int $electionId, array $votesByCandidate, ?int $userId = null): void
     {
         if ($stateId <= 0 || $electionId <= 0) {
             throw new \InvalidArgumentException('Etat ou election invalide.');
@@ -29,6 +31,9 @@ class VoteService
         if (empty($votesByCandidate)) {
             throw new \InvalidArgumentException('Aucun vote fourni.');
         }
+
+        // Récupérer les votes existants pour l'audit
+        $existingVotes = $this->voteRepository->getVotesByState($stateId, $electionId);
 
         foreach ($votesByCandidate as $candidateIdRaw => $popularVotesRaw) {
             $candidateId = (int) $candidateIdRaw;
@@ -46,6 +51,17 @@ class VoteService
 
             if (!$this->voteRepository->candidateExistsInElection($candidateId, $electionId)) {
                 throw new \InvalidArgumentException('Candidat non inscrit a cette election.');
+            }
+
+            // Récupérer l'ancienne valeur pour l'audit
+            $oldValue = $existingVotes[$candidateId] ?? null;
+            
+            // Enregistrer le changement dans l'audit si le service est disponible
+            if ($this->auditService && $userId) {
+                // N'enregistrer que si la valeur a changé ou si c'est une première entrée
+                if ($oldValue === null || $oldValue != $popularVotes) {
+                    $this->auditService->logChange($userId, $stateId, $electionId, $candidateId, $oldValue, (int) $popularVotes);
+                }
             }
 
             $this->voteRepository->upsertVote($stateId, $candidateId, $electionId, (int) $popularVotes);
