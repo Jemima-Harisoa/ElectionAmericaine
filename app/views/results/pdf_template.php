@@ -124,7 +124,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🗳️ Élection présidentielle américaine 2020</h1>
+            <h1>Élection présidentielle américaine 2020</h1>
             <p>Résultats finaux - Grands électeurs</p>
         </div>
 
@@ -156,7 +156,7 @@
 
             <?php if (!empty($winner)): ?>
                 <div class="winner-box">
-                    <h3>🏆 Vainqueur</h3>
+                    <h3>Vainqueur</h3>
                     <p><?= htmlspecialchars((string) $winner['name'], ENT_QUOTES, 'UTF-8') ?></p>
                     <p class="electors"><?= (int) $winner['total_electors'] ?> grands électeurs</p>
                 </div>
