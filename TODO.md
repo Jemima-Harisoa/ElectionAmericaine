@@ -75,15 +75,15 @@
 > Accessible à tous les utilisateurs connectés
 
 ### Back
-- [ ] **`VoteRepository::getVotesByElection`** — Retourne tous les votes d'une élection groupés par état
-- [ ] **`VoteService::computePercentages`** — Pour chaque état, calcule `(votes_candidat / total_votes_etat) * 100` et retourne le résultat formaté
-- [ ] **`VoteController::showTableau`** — Appelle `computePercentages` et passe les données à la vue
+- [X] **`VoteRepository::getVotesByElection`** — Retourne tous les votes d'une élection groupés par état
+- [X] **`VoteService::computePercentages`** — Pour chaque état, calcule `(votes_candidat / total_votes_etat) * 100` et retourne le résultat formaté
+- [X] **`VoteController::showTableau`** — Appelle `computePercentages` et passe les données à la vue
 
 ### Routes
-- [ ] `GET /tableau` → `VoteController::showTableau` *(connecté)*
+- [X] `GET /tableau` → `VoteController::showTableau` *(connecté)*
 
 ### Vues
-- [ ] **`votes/tableau.php`** — Tableau avec colonnes : État / Biden % / Trump %, lien "Voir résultats" en bas
+- [X] **`votes/tableau.php`** — Tableau avec colonnes : État / Biden % / Trump %, lien "Voir résultats" en bas
 
 ---
 
