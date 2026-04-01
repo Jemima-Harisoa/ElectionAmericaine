@@ -4,6 +4,8 @@ use flight\Engine;
 use flight\database\PdoWrapper;
 use flight\debug\database\PdoQueryCapture;
 use Tracy\Debugger;
+use app\repositories\UserRepository;
+use app\services\AuthService;
 
 /** 
  * @var array $config This comes from the returned array at the bottom of the config.php file
@@ -26,6 +28,14 @@ $dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['datab
 $pdoClass = Debugger::$showBar === true ? PdoQueryCapture::class : PdoWrapper::class;
 
 $app->register('db', $pdoClass, [ $dsn, $config['database']['user'] ?? null, $config['database']['password'] ?? null ]);
+
+$app->map('userRepository', function() {
+	return new UserRepository(Flight::db());
+});
+
+$app->map('authService', function() {
+	return new AuthService(Flight::userRepository());
+});
 
 // Got google oauth stuff? You could register that here
 // $app->register('google_oauth', Google_Client::class, [ $config['google_oauth'] ]);
