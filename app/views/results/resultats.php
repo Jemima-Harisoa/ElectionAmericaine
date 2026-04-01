@@ -28,7 +28,7 @@
         <?php if (!empty($winner)): ?>
           <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--bg-success, #e6f5e6); border-left: 4px solid var(--success, #2d7d2d); border-radius: 4px;">
             <p style="margin: 0; color: var(--text-1, #1e2a3a); font-weight: 600;">
-              🏆 Vainqueur : 
+              Vainqueur : 
               <strong style="color: var(--success, #2d7d2d);">
                 <?= htmlspecialchars((string) $winner['name'], ENT_QUOTES, 'UTF-8') ?>
               </strong>
