@@ -4,6 +4,7 @@ use flight\net\Router;
 use app\controllers\AuthController;
 use app\controllers\VoteController;
 use app\controllers\ResultController;
+use app\controllers\MapController;
 //use Flight;
 
 /** 
@@ -57,5 +58,17 @@ $router->get('/resultats', function() {
 $router->get('/resultats/pdf', function() {
 	$controller = new ResultController(Flight::resultService(), Flight::pdfService(), Flight::authService());
 	$controller->exportPDF();
+});
+
+$router->get('/carte', function() {
+	$controller = new MapController(Flight::mapService(), Flight::voteRepository(), Flight::authService());
+	$controller->showMap();
+});
+
+$router->get('/carte/etat/@id', function($id) {
+	$controller = new MapController(Flight::mapService(), Flight::voteRepository(), Flight::authService());
+	// Passer l'ID dans les url_vars
+	\Flight::request()->url_vars['id'] = $id;
+	$controller->getStateDetail();
 });
 

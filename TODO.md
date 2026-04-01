@@ -15,6 +15,7 @@
 - [x] Module 3 : Statistiques (pourcentages, tableau)
 - [x] Module 4 : Résultats globaux (grands électeurs par candidat, vainqueur)
 - [x] Module 5 : Export PDF (dompdf, template)
+- [x] Module 6 : Carte des résultats (grille CSS, AJAX fetch, modal)
 
 ---
 
@@ -129,18 +130,18 @@
 > Visualisation simplifiée — pas besoin de géométrie réelle
 
 ### Back
-- [ ] **`ResultRepository::getStateWinners`** — Interroge la vue `state_winners` : retourne pour chaque état le nom, nb grands électeurs, id candidat gagnant
-- [ ] **`ResultService::getMapData`** — Enrichit les données avec la couleur (`blue` pour Biden, `red` pour Trump) par état
-- [ ] **`MapController::showMap`** — Appelle `getMapData` et passe les données à la vue
-- [ ] **`MapController::getStateDetail`** — Endpoint AJAX : retourne les votes détaillés d'un état en JSON (Biden X voix / Trump Y voix / gagnant)
+- [x] **`ResultRepository::getStateWinners`** — Interroge la vue `state_winners` : retourne pour chaque état le nom, nb grands électeurs, id candidat gagnant
+- [x] **`ResultService::getMapData`** — Enrichit les données avec la couleur (`blue` pour Biden, `red` pour Trump) par état
+- [x] **`MapController::showMap`** — Appelle `getMapData` et passe les données à la vue
+- [x] **`MapController::getStateDetail`** — Endpoint AJAX : retourne les votes détaillés d'un état en JSON (Biden X voix / Trump Y voix / gagnant)
 
 ### Routes
-- [ ] `GET /carte`          → `MapController::showMap` *(connecté)*
-- [ ] `GET /carte/etat/@id` → `MapController::getStateDetail` *(AJAX, connecté)*
+- [x] `GET /carte`          → `MapController::showMap` *(connecté)*
+- [x] `GET /carte/etat/@id` → `MapController::getStateDetail` *(AJAX, connecté)*
 
 ### Vues
-- [ ] **`map/carte.php`** — Grille CSS de cases colorées (rouge/bleu/gris si pas de données), chaque case : nom état + nb grands électeurs, clic déclenche popup
-- [ ] **JS inline dans `carte.php`** — `fetch('/carte/etat/{id}')` au clic, affiche les détails dans un modal Bootstrap
+- [x] **`map/carte.php`** — Grille CSS de cases colorées (rouge/bleu/gris si pas de données), chaque case : nom état + nb grands électeurs, clic déclenche popup
+- [x] **JS inline dans `carte.php`** — `fetch('/carte/etat/{id}')` au clic, affiche les détails dans un modal Bootstrap
 
 ---
 

@@ -11,6 +11,7 @@ use app\services\AuthService;
 use app\services\VoteService;
 use app\services\ResultService;
 use app\services\PdfService;
+use app\services\MapService;
 
 /** 
  * @var array $config This comes from the returned array at the bottom of the config.php file
@@ -60,6 +61,10 @@ $app->map('resultService', function() {
 
 $app->map('pdfService', function() {
 	return new PdfService(Flight::resultRepository());
+});
+
+$app->map('mapService', function() {
+	return new MapService(Flight::resultRepository(), Flight::voteRepository());
 });
 
 // Got google oauth stuff? You could register that here
