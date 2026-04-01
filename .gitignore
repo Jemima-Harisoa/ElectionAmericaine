@@ -3,3 +3,10 @@ vendor/
 
 # Ignore the repository's structure files
 structure.txt
+
+# Ignore docker-compose files
+docker-compose.dev.yml
+Dockerfile
+
+# Ignore environment variable files
+.env

@@ -1,10 +1,10 @@
 {
-  "require": {
-    "flight/flight": "^2.0"
-  },
   "autoload": {
     "classmap": [
       "app/"
     ]
+  },
+  "require": {
+    "flightphp/core": "^3.18"
   }
 }
