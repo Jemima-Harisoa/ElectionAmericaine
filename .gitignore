@@ -1,0 +1,5 @@
+# Ignore the vendor directory, which contains third-party dependencies
+vendor/
+
+# Ignore the repository's structure files
+structure.txt
