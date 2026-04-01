@@ -3,22 +3,22 @@
    DESIGN TOKENS — modifier ici pour changer tout le thème
 ============================================================ */
 :root {
-  --bg:          #0d0f14;
-  --surface:     #161b25;
-  --surface-2:   #1e2535;
-  --border:      #2a3347;
+  --bg:          #f6f8fc;
+  --surface:     #ffffff;
+  --surface-2:   #eef3fb;
+  --border:      #d5dfef;
   --red:         #e63946;
   --red-muted:   rgba(230, 57, 70, .15);
   --blue:        #457bdd;
   --blue-muted:  rgba(69, 123, 221, .15);
   --gold:        #f4d35e;
   --gold-muted:  rgba(244, 211, 94, .12);
-  --text-1:      #f0f2f7;
-  --text-2:      #8c96ad;
-  --text-3:      #556070;
+  --text-1:      #1e2a3a;
+  --text-2:      #5f708a;
+  --text-3:      #7f8fa5;
   --radius:      10px;
   --radius-lg:   18px;
-  --shadow:      0 4px 24px rgba(0,0,0,.45);
+  --shadow:      0 6px 24px rgba(30, 60, 114, .08);
   --font-display: 'Syne', sans-serif;
   --font-body:    'Source Serif 4', serif;
   --nav-h:       64px;
@@ -53,7 +53,7 @@ a:hover { color: var(--gold); }
   top: 0;
   z-index: 100;
   height: var(--nav-h);
-  background: rgba(13, 15, 20, .85);
+  background: rgba(255, 255, 255, .92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
   display: flex;
