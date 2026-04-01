@@ -10,3 +10,6 @@ Dockerfile
 
 # Ignore environment variable files
 .env
+
+# Ignore the ps script 
+*.ps1
