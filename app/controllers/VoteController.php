@@ -40,17 +40,29 @@ class VoteController
             return;
         }
 
-        $stateId = (int) ($request->query->state_id ?? $states[0]['id']);
-        if (!$this->voteRepository->stateExists($stateId)) {
-            $stateId = (int) $states[0]['id'];
+        // No default state - only use if explicitly provided
+        $stateId = (int) ($request->query->state_id ?? 0);
+        if ($stateId > 0 && !$this->voteRepository->stateExists($stateId)) {
+            $stateId = 0;
+        }
+
+        $currentStateName = '';
+        if ($stateId > 0) {
+            foreach ($states as $state) {
+                if ((int) $state['id'] === $stateId) {
+                    $currentStateName = $state['name'] . ' (' . ((int) $state['electoral_votes']) . ' GE)';
+                    break;
+                }
+            }
         }
 
         $candidates = $this->voteRepository->getCandidatesByElection($electionId);
-        $existingVotes = $this->voteRepository->getVotesByState($stateId, $electionId);
+        $existingVotes = $stateId > 0 ? $this->voteRepository->getVotesByState($stateId, $electionId) : [];
 
         \Flight::render('votes/saisie', [
             'states' => $states,
             'stateId' => $stateId,
+            'currentStateName' => $currentStateName,
             'electionId' => $electionId,
             'candidates' => $candidates,
             'existingVotes' => $existingVotes,

@@ -14,14 +14,29 @@
       <input type="hidden" name="election_id" value="<?= (int) $electionId ?>" />
 
       <div class="form-group" style="margin-bottom: 1rem;">
-        <label class="form-label" for="state_id">Etat</label>
-        <select class="form-control" id="state_id" name="state_id" onchange="window.location.href='/saisie?state_id=' + this.value" required>
+        <label class="form-label" for="state_id">État</label>
+        <input
+          class="form-control"
+          id="state_id"
+          name="state_id"
+          type="text"
+          list="states-list"
+          placeholder="Rechercher un état…"
+          value="<?= htmlspecialchars((string) ($currentStateName ?? ''), ENT_QUOTES, 'UTF-8') ?>"
+          oninput="syncStateId(this)"
+          required
+        />
+        <datalist id="states-list">
           <?php foreach ($states as $state): ?>
-            <option value="<?= (int) $state['id'] ?>" <?= (int) $stateId === (int) $state['id'] ? 'selected' : '' ?>>
-              <?= htmlspecialchars((string) $state['name'], ENT_QUOTES, 'UTF-8') ?> (<?= (int) $state['electoral_votes'] ?> GE)
+            <option
+              value="<?= htmlspecialchars((string) $state['name'], ENT_QUOTES, 'UTF-8') ?> (<?= (int) $state['electoral_votes'] ?> GE)"
+              data-id="<?= (int) $state['id'] ?>"
+            >
             </option>
           <?php endforeach; ?>
-        </select>
+        </datalist>
+        <!-- Champ caché qui porte le vrai id à soumettre -->
+        <input type="hidden" id="state_id_value" name="state_id" value="<?= (int) ($stateId ?? 0) ?>" />
       </div>
 
       <div class="row g-3">
@@ -39,7 +54,9 @@
                 type="number"
                 min="0"
                 required
-                value="<?= (int) ($existingVotes[$cid] ?? 0) ?>"
+                <?php if (isset($existingVotes[$cid])): ?>
+                  value="<?= (int) $existingVotes[$cid] ?>"
+                <?php endif; ?>
               />
             </div>
           </div>
@@ -52,3 +69,35 @@
     </form>
   </section>
 </main>
+
+<script>
+function syncStateId(input) {
+  const options = document.querySelectorAll('#states-list option');
+  for (const opt of options) {
+    if (opt.value === input.value) {
+      const id = opt.dataset.id;
+      document.getElementById('state_id_value').value = id;
+      window.location.href = '/saisie?state_id=' + id;
+      return;
+    }
+  }
+  document.getElementById('votes-section').style.display = 'none';
+}
+</script>
+
+<style>
+datalist option {
+  background-color: var(--surface);
+  color: var(--text-1);
+  padding: 0.5rem 1rem;
+}
+
+input[type="text"][list]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input[list]::-webkit-outer-spin-button,
+input[list]::-webkit-inner-spin-button {
+  display: none;
+}
+</style>
