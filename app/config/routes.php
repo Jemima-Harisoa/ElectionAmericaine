@@ -2,6 +2,7 @@
 use flight\Engine;
 use flight\net\Router;
 use app\controllers\AuthController;
+use app\controllers\VoteController;
 //use Flight;
 
 /** 
@@ -9,6 +10,11 @@ use app\controllers\AuthController;
  * @var Engine $app
  */
 $router->get('/', function() {
+	if (Flight::authService()->requireAuth()) {
+		Flight::redirect('/saisie');
+		return;
+	}
+
 	Flight::redirect('/login');
 });
 
@@ -25,5 +31,15 @@ $router->post('/login', function() {
 $router->get('/logout', function() {
 	$controller = new AuthController(Flight::authService());
 	$controller->handleLogout();
+});
+
+$router->get('/saisie', function() {
+	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService());
+	$controller->showSaisie();
+});
+
+$router->post('/saisie', function() {
+	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService());
+	$controller->handleSaisie();
 });
 

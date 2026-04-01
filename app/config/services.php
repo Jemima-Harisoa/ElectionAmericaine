@@ -5,7 +5,9 @@ use flight\database\PdoWrapper;
 use flight\debug\database\PdoQueryCapture;
 use Tracy\Debugger;
 use app\repositories\UserRepository;
+use app\repositories\VoteRepository;
 use app\services\AuthService;
+use app\services\VoteService;
 
 /** 
  * @var array $config This comes from the returned array at the bottom of the config.php file
@@ -35,6 +37,14 @@ $app->map('userRepository', function() {
 
 $app->map('authService', function() {
 	return new AuthService(Flight::userRepository());
+});
+
+$app->map('voteRepository', function() {
+	return new VoteRepository(Flight::db());
+});
+
+$app->map('voteService', function() {
+	return new VoteService(Flight::voteRepository());
 });
 
 // Got google oauth stuff? You could register that here

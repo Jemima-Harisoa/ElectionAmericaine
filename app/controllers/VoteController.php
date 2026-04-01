@@ -1,0 +1,95 @@
+<?php
+
+namespace app\controllers;
+
+use app\repositories\VoteRepository;
+use app\services\AuthService;
+use app\services\VoteService;
+
+class VoteController
+{
+    private VoteRepository $voteRepository;
+    private VoteService $voteService;
+    private AuthService $authService;
+
+    public function __construct(VoteRepository $voteRepository, VoteService $voteService, AuthService $authService)
+    {
+        $this->voteRepository = $voteRepository;
+        $this->voteService = $voteService;
+        $this->authService = $authService;
+    }
+
+    public function showSaisie(): void
+    {
+        if (!$this->authService->requireAuth()) {
+            \Flight::redirect('/login');
+            return;
+        }
+
+        if (!$this->authService->requireAdmin()) {
+            \Flight::halt(403, 'Acces refuse.');
+            return;
+        }
+
+        $request = \Flight::request();
+        $electionId = 1;
+        $states = $this->voteRepository->getStates();
+
+        if (empty($states)) {
+            \Flight::halt(500, 'Aucun etat disponible.');
+            return;
+        }
+
+        $stateId = (int) ($request->query->state_id ?? $states[0]['id']);
+        if (!$this->voteRepository->stateExists($stateId)) {
+            $stateId = (int) $states[0]['id'];
+        }
+
+        $candidates = $this->voteRepository->getCandidatesByElection($electionId);
+        $existingVotes = $this->voteRepository->getVotesByState($stateId, $electionId);
+
+        \Flight::render('votes/saisie', [
+            'states' => $states,
+            'stateId' => $stateId,
+            'electionId' => $electionId,
+            'candidates' => $candidates,
+            'existingVotes' => $existingVotes,
+            'success' => (int) ($request->query->success ?? 0) === 1,
+            'error' => (string) ($request->query->error ?? ''),
+        ], 'content');
+
+        \Flight::render('layout/layout', [
+            'pageTitle' => 'Saisie des votes',
+            'showNavbar' => true,
+            'currentUser' => $this->authService->getCurrentUser(),
+        ]);
+    }
+
+    public function handleSaisie(): void
+    {
+        if (!$this->authService->requireAuth()) {
+            \Flight::redirect('/login');
+            return;
+        }
+
+        if (!$this->authService->requireAdmin()) {
+            \Flight::halt(403, 'Acces refuse.');
+            return;
+        }
+
+        $request = \Flight::request();
+        $stateId = (int) ($request->data->state_id ?? 0);
+        $electionId = (int) ($request->data->election_id ?? 1);
+        $votesByCandidate = (array) ($request->data->votes ?? []);
+
+        try {
+            $this->voteService->saveVoteForState($stateId, $electionId, $votesByCandidate);
+            \Flight::redirect('/saisie?state_id=' . $stateId . '&success=1');
+            return;
+        } catch (\Throwable $e) {
+            $message = rawurlencode($e->getMessage());
+            \Flight::redirect('/saisie?state_id=' . $stateId . '&error=' . $message);
+            return;
+        }
+    }
+}

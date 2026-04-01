@@ -16,7 +16,7 @@ class AuthController
     public function showLogin(): void
     {
         if ($this->authService->requireAuth()) {
-            \Flight::redirect('/tableau');
+            \Flight::redirect('/saisie');
             return;
         }
 
@@ -39,7 +39,7 @@ class AuthController
         $password = (string) ($request->data->password ?? '');
 
         if ($this->authService->login($username, $password)) {
-            \Flight::redirect('/tableau');
+            \Flight::redirect('/saisie');
             return;
         }
 
