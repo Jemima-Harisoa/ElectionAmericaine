@@ -5,6 +5,7 @@
     ]
   },
   "require": {
-    "flightphp/core": "^3.18"
+    "flightphp/core": "^3.18",
+    "dompdf/dompdf": "^3.1"
   }
 }

@@ -1,7 +1,7 @@
 <?php
 
-use flight\debug\tracy\TracyExtensionLoader;
-use Tracy\Debugger;
+// use flight\debug\tracy\TracyExtensionLoader;
+// use Tracy\Debugger;
 
 // Set the default timezone
 date_default_timezone_set('Indian/Antananarivo');
@@ -28,8 +28,8 @@ if(empty($app)) {
 // Loader::setV2ClassLoading(false);
 
 // This autoloads your code in the app directory so you don't have to require_once everything
-$app->path(__DIR__ . $ds . '..' . $ds . '..');
-$app->path(__DIR__ . $ds . '..' . $ds . 'controllers');
+$app->path(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
+$app->path(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'controllers');
 
 // This is where you can set some flight config variables. 
 $app->set('flight.base_url', '/'); // if this is in a subdirectory, you'll need to change this
@@ -48,16 +48,16 @@ $app->set('flight.content_length', true); // if flight should send a content len
  * Check out the docs here:
  * https://tracy.nette.org/
  */
-Debugger::enable(); // auto tries to figure out your environment
+// Debugger::enable(); // auto tries to figure out your environment
 // Debugger::enable(Debugger::DEVELOPMENT) // sometimes you have to be explicit (also Debugger::PRODUCTION)
 // Debugger::enable('23.75.345.200'); // you can also provide an array of IP addresses
-Debugger::$logDirectory = __DIR__ . $ds . '..' . $ds . 'log';
-Debugger::$strictMode = true; // display all errors
+// Debugger::$logDirectory = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'log';
+// Debugger::$strictMode = true; // display all errors
 // Debugger::$strictMode = E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED; // all errors except deprecated notices
-if (Debugger::$showBar && php_sapi_name() !== 'cli') {
-    $app->set('flight.content_length', false); // if Debugger bar is visible, then content-length can not be set by Flight
-	(new TracyExtensionLoader($app));
-}
+// if (Debugger::$showBar && php_sapi_name() !== 'cli') {
+//     $app->set('flight.content_length', false); // if Debugger bar is visible, then content-length can not be set by Flight
+// 	(new TracyExtensionLoader($app));
+// }
 
 // Définir le chemin absolu pour les uploads
 $uploadBasePath =  '/uploads'. $ds;

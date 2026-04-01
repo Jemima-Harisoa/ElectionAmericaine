@@ -14,6 +14,7 @@
 - [x] Module 2 : Saisie des votes (formulaire, datalist, validation, persistance)
 - [x] Module 3 : Statistiques (pourcentages, tableau)
 - [x] Module 4 : Résultats globaux (grands électeurs par candidat, vainqueur)
+- [x] Module 5 : Export PDF (dompdf, template)
 
 ---
 
@@ -112,15 +113,15 @@
 > Déclenché depuis la page résultats
 
 ### Back
-- [ ] **Installer dompdf** — `composer require dompdf/dompdf`
-- [ ] **`PdfService::exportResultsPDF`** — Génère un PDF à partir des données de `ResultService::getSummaryByElection` et déclenche le téléchargement
-- [ ] **`ResultController::exportPDF`** — Appelle `PdfService::exportResultsPDF`
+- [x] **Installer dompdf** — `composer require dompdf/dompdf`
+- [x] **`PdfService::exportResultsPDF`** — Génère un PDF à partir des données de `ResultService::getSummaryByElection` et déclenche le téléchargement
+- [x] **`ResultController::exportPDF`** — Appelle `PdfService::exportResultsPDF`
 
 ### Routes
-- [ ] `GET /resultats/pdf` → `ResultController::exportPDF` *(connecté)*
+- [x] `GET /resultats/pdf` → `ResultController::exportPDF` *(connecté)*
 
 ### Vues
-- [ ] **`results/pdf_template.php`** — Template HTML simple (tableau résultats + vainqueur) utilisé par dompdf pour générer le PDF
+- [x] **`results/pdf_template.php`** — Template HTML simple (tableau résultats + vainqueur) utilisé par dompdf pour générer le PDF
 
 ---
 

@@ -50,8 +50,12 @@ $router->get('/tableau', function() {
 });
 
 $router->get('/resultats', function() {
-	$controller = new ResultController(Flight::resultService(), Flight::authService());
+	$controller = new ResultController(Flight::resultService(), Flight::pdfService(), Flight::authService());
 	$controller->showResults();
 });
 
+$router->get('/resultats/pdf', function() {
+	$controller = new ResultController(Flight::resultService(), Flight::pdfService(), Flight::authService());
+	$controller->exportPDF();
+});
 
