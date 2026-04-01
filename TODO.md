@@ -153,27 +153,27 @@
 - [ ] **Clé étrangère** `audit_log.user_id → users.id`
 
 ### Back
-- [ ] **`AuditRepository::insert`** — Insère une ligne dans `audit_log`
-- [ ] **`AuditRepository::getAll`** — Retourne tout l'historique, trié par date décroissante
-- [ ] **`AuditRepository::getByState`** — Filtre l'historique par état
-- [ ] **`AuditRepository::getEntryById`** — Retourne une entrée précise (utilisé pour le rollback)
-- [ ] **`AuditService::logChange`** — Appelé dans `VoteService::saveVoteForState` : enregistre automatiquement ancienne et nouvelle valeur à chaque modification
-- [ ] **`AuditService::getHistoryByState`** — Retourne l'historique formaté pour la vue
-- [ ] **`AuditService::rollback`** — Relit l'entrée d'audit et réécrit les votes à l'ancienne valeur via `VoteRepository::upsertVote`
-- [ ] **`AuditService::exportHistoryCSV`** — Génère un CSV : date, utilisateur, état, candidat, ancienne valeur, nouvelle valeur
-- [ ] **`AuditController::showAudit`** — Affiche tout l'historique
-- [ ] **`AuditController::showAuditByState`** — Filtre par état (paramètre GET)
-- [ ] **`AuditController::handleRollback`** — Traite le POST rollback, appelle `AuditService::rollback`
-- [ ] **`AuditController::exportCSV`** — Déclenche le téléchargement du CSV
+- [X] **`AuditRepository::insert`** — Insère une ligne dans `audit_log`
+- [X] **`AuditRepository::getAll`** — Retourne tout l'historique, trié par date décroissante
+- [X] **`AuditRepository::getByState`** — Filtre l'historique par état
+- [X] **`AuditRepository::getEntryById`** — Retourne une entrée précise (utilisé pour le rollback)
+- [X] **`AuditService::logChange`** — Appelé dans `VoteService::saveVoteForState` : enregistre automatiquement ancienne et nouvelle valeur à chaque modification
+- [X] **`AuditService::getHistoryByState`** — Retourne l'historique formaté pour la vue
+- [X] **`AuditService::rollback`** — Relit l'entrée d'audit et réécrit les votes à l'ancienne valeur via `VoteRepository::upsertVote`
+- [X] **`AuditService::exportHistoryCSV`** — Génère un CSV : date, utilisateur, état, candidat, ancienne valeur, nouvelle valeur
+- [X] **`AuditController::showAudit`** — Affiche tout l'historique
+- [X] **`AuditController::showAuditByState`** — Filtre par état (paramètre GET)
+- [X] **`AuditController::handleRollback`** — Traite le POST rollback, appelle `AuditService::rollback`
+- [X] **`AuditController::exportCSV`** — Déclenche le téléchargement du CSV
 
 ### Routes
-- [ ] `GET  /audit`          → `AuditController::showAudit` *(admin)*
-- [ ] `GET  /audit/etat/@id` → `AuditController::showAuditByState` *(admin)*
-- [ ] `POST /audit/rollback` → `AuditController::handleRollback` *(admin)*
-- [ ] `GET  /audit/export`   → `AuditController::exportCSV` *(admin)*
+- [X] `GET  /audit`          → `AuditController::showAudit` *(admin)*
+- [X] `GET  /audit/etat/@id` → `AuditController::showAuditByState` *(admin)*
+- [X] `POST /audit/rollback` → `AuditController::handleRollback` *(admin)*
+- [X] `GET  /audit/export`   → `AuditController::exportCSV` *(admin)*
 
 ### Vues
-- [ ] **`audit/historique.php`** — Tableau : date / utilisateur / état / candidat / ancienne valeur / nouvelle valeur + bouton "Annuler" (rollback) par ligne + bouton "Exporter CSV"
+- [X] **`audit/historique.php`** — Tableau : date / utilisateur / état / candidat / ancienne valeur / nouvelle valeur + bouton "Annuler" (rollback) par ligne + bouton "Exporter CSV"
 
 ---
 

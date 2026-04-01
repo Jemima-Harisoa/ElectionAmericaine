@@ -27,14 +27,17 @@ class AuditController
             return;
         }
 
-        $currentUser = $this->authService->getCurrentUser();
         $history = $this->auditService->getAllHistory();
 
         \Flight::render('audit/historique', [
-            'pageTitle' => 'Audit & Historique',
-            'currentUser' => $currentUser,
             'history' => $history,
             'filterState' => null
+        ], 'content');
+
+        \Flight::render('layout/layout', [
+            'pageTitle' => 'Audit & Historique',
+            'showNavbar' => true,
+            'currentUser' => $this->authService->getCurrentUser(),
         ]);
     }
 
@@ -49,14 +52,17 @@ class AuditController
             return;
         }
 
-        $currentUser = $this->authService->getCurrentUser();
         $history = $stateId ? $this->auditService->getHistoryByState($stateId) : [];
 
         \Flight::render('audit/historique', [
-            'pageTitle' => 'Audit & Historique',
-            'currentUser' => $currentUser,
             'history' => $history,
             'filterState' => $stateId
+        ], 'content');
+
+        \Flight::render('layout/layout', [
+            'pageTitle' => 'Audit & Historique',
+            'showNavbar' => true,
+            'currentUser' => $this->authService->getCurrentUser(),
         ]);
     }
 
