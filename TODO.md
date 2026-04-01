@@ -56,18 +56,18 @@
 > Réservé à l'admin — permet d'entrer les voix par état
 
 ### Back
-- [ ] **`VoteRepository::getVotesByState`** — Retourne les votes existants d'un état pour une élection (pour pré-remplir le formulaire)
-- [ ] **`VoteRepository::upsertVote`** — Insère ou met à jour un vote (`INSERT ... ON DUPLICATE KEY UPDATE`)
-- [ ] **`VoteService::saveVoteForState`** — Valide les données (entiers positifs, état existant, candidats valides) puis appelle `upsertVote` pour chaque candidat
-- [ ] **`VoteController::showSaisie`** — Charge la liste des états + les votes existants et affiche le formulaire
-- [ ] **`VoteController::handleSaisie`** — Reçoit le POST, appelle `VoteService::saveVoteForState`, redirige avec message de succès ou d'erreur
+- [X] **`VoteRepository::getVotesByState`** — Retourne les votes existants d'un état pour une élection (pour pré-remplir le formulaire)
+- [X] **`VoteRepository::upsertVote`** — Insère ou met à jour un vote (`INSERT ... ON DUPLICATE KEY UPDATE`)
+- [X] **`VoteService::saveVoteForState`** — Valide les données (entiers positifs, état existant, candidats valides) puis appelle `upsertVote` pour chaque candidat
+- [X] **`VoteController::showSaisie`** — Charge la liste des états + les votes existants et affiche le formulaire
+- [X] **`VoteController::handleSaisie`** — Reçoit le POST, appelle `VoteService::saveVoteForState`, redirige avec message de succès ou d'erreur
 
 ### Routes
-- [ ] `GET  /saisie` → `VoteController::showSaisie` *(admin)*
-- [ ] `POST /saisie` → `VoteController::handleSaisie` *(admin)*
+- [X] `GET  /saisie` → `VoteController::showSaisie` *(admin)*
+- [X] `POST /saisie` → `VoteController::handleSaisie` *(admin)*
 
 ### Vues
-- [ ] **`votes/saisie.php`** — Select liste des états + 2 champs numériques (Biden / Trump) + bouton Valider, message flash de confirmation/erreur
+- [X] **`votes/saisie.php`** — Select liste des états + 2 champs numériques (Biden / Trump) + bouton Valider, message flash de confirmation/erreur
 
 ---
 
