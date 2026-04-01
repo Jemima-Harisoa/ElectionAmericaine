@@ -3,6 +3,7 @@ use flight\Engine;
 use flight\net\Router;
 use app\controllers\AuthController;
 use app\controllers\VoteController;
+use app\controllers\ResultController;
 //use Flight;
 
 /** 
@@ -47,4 +48,10 @@ $router->get('/tableau', function() {
 	$controller = new VoteController(Flight::voteRepository(), Flight::voteService(), Flight::authService());
 	$controller->showTableau();
 });
+
+$router->get('/resultats', function() {
+	$controller = new ResultController(Flight::resultService(), Flight::authService());
+	$controller->showResults();
+});
+
 

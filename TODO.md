@@ -10,6 +10,10 @@
 - [x] Structure dossiers MVC : `controllers/`, `repositories/`, `services/`, `views/`
 - [x] Fichiers de base : `bootstrap.php`, `config.php`, `routes.php`, `public/index.php`
 - [x] Docker Compose + Dockerfile + `.htaccess`
+- [x] Module 1 : Authentification (login/logout, sessions, rôles)
+- [x] Module 2 : Saisie des votes (formulaire, datalist, validation, persistance)
+- [x] Module 3 : Statistiques (pourcentages, tableau)
+- [x] Module 4 : Résultats globaux (grands électeurs par candidat, vainqueur)
 
 ---
 
@@ -91,16 +95,16 @@
 > Accessible à tous — affiche le gagnant final
 
 ### Back
-- [ ] **`ResultRepository::getElectionResults`** — Interroge la vue SQL `election_results` (grands électeurs par candidat)
-- [ ] **`ResultRepository::getElectionWinner`** — Interroge la vue SQL `election_winner`
-- [ ] **`ResultService::getSummaryByElection`** — Retourne : liste candidats + leurs grands électeurs + le vainqueur
-- [ ] **`ResultController::showResults`** — Appelle `getSummaryByElection` et passe les données à la vue
+- [x] **`ResultRepository::getElectionResults`** — Interroge la vue SQL `election_results` (grands électeurs par candidat)
+- [x] **`ResultRepository::getElectionWinner`** — Interroge la vue SQL `election_winner`
+- [x] **`ResultService::getSummaryByElection`** — Retourne : liste candidats + leurs grands électeurs + le vainqueur
+- [x] **`ResultController::showResults`** — Appelle `getSummaryByElection` et passe les données à la vue
 
 ### Routes
-- [ ] `GET /resultats` → `ResultController::showResults` *(connecté)*
+- [x] `GET /resultats` → `ResultController::showResults` *(connecté)*
 
 ### Vues
-- [ ] **`results/resultats.php`** — Tableau : Candidat / Nb grands électeurs, mention "Vainqueur : XXX" en bas, bouton "Exporter en PDF"
+- [x] **`results/resultats.php`** — Tableau : Candidat / Nb grands électeurs, mention "Vainqueur : XXX" en bas, bouton "Exporter en PDF"
 
 ---
 
